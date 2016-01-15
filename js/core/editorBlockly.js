@@ -56,25 +56,6 @@
       callback(data);
     });
     
-    Espruino.Core.Config.add("BLOCKLY_SHOW_HSCROLL", {
-      section : "General",
-      name : "Line wrapping",
-      description : "Set when you want to keep long code lines on the same line?",
-      type : "boolean",
-      defaultValue : false, 
-	     onChange : function(toggle) { toggleCodemirrorLineWrapping(toggle); }
-    });   
-	   function toggleCodemirrorLineWrapping(useLineWrapping) {
-		    if (useLineWrapping) {
-			     if ($('#codemirrorLineWrapping')) {
-				      $('#codemirrorLineWrapping').remove();
-			     }
-		    }
-		    else {
-			     $('head').append('<style id="codemirrorLineWrapping">.CodeMirror-wrap pre { word-wrap: break-word;white-space: pre-wrap;word-break: normal; }</style>');
-		    }
-	   }
-	
     // when we get JSON for the board, pass it to blockly
     Espruino.addProcessor("boardJSONLoaded", function (data, callback) {
       if (Blockly!==undefined && Blockly.setBoardJSON!==undefined)
