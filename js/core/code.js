@@ -56,15 +56,6 @@
       }
       Espruino.Core.EditorJavaScript.setCode(code);
       callback(data);
-      
-      // Load default line wrap setting
-      if (Espruino.Config.BLOCKLY_SHOW_HSCROLL) {
-		     CodeMirror.defaults.lineWrapping = true;
-      }
-	     else {
-		     $('head').append('<style id="codemirrorLineWrapping">.CodeMirror-wrap pre { word-wrap: break-word;white-space: pre-wrap;word-break: normal; }</style>');
-		     CodeMirror.defaults.lineWrapping = false;
-	     }
     });
     
     
