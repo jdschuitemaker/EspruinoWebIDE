@@ -45,10 +45,45 @@
         }
       }
     });
+	
+
+	Espruino.Core.Config.add("BLOCKLY_SHOW_HSCROLL", {
+      section : "General",
+      name : "Line wrapping",
+      description : "Set when you want to keep long code lines on the same line?",
+      type : "boolean",
+      defaultValue : false, 
+	  onChange : function(toggle) { toggleCodemirrorLineWrapping(toggle); }
+    });   
+	
+	function toggleCodemirrorLineWrapping(useLineWrapping) {
+		if (useLineWrapping) {
+			if ($('#codemirrorLineWrapping')) {
+				$('#codemirrorLineWrapping').remove();
+			}
+		}
+		else {
+			$('head').append('<style id="codemirrorLineWrapping">.CodeMirror-wrap pre { word-wrap: break-word;white-space: pre-wrap;word-break: normal; }</style>');
+		}
+	}
+	
+	// get code from our config area at bootup
+    Espruino.addProcessor("initialised", function(data,callback) {
+	  if (Espruino.Config.BLOCKLY_SHOW_HSCROLL) {
+		CodeMirror.defaults.lineWrapping = true;
+      }
+	  else {
+		$('head').append('<style id="codemirrorLineWrapping">.CodeMirror-wrap pre { word-wrap: break-word;white-space: pre-wrap;word-break: normal; }</style>');
+		CodeMirror.defaults.lineWrapping = false;
+	  }
+    });
+	
     // When things have changed...
     codeMirror.on("change", function(cm, changeObj) {
       // If pasting, make sure we ignore `&shy;` - which gets inserted
       // by the forum's code formatter
+	  console.dir(cm)
+	  console.dir(changeObj)
       if (changeObj.origin == "paste" && cm.getValue().indexOf("\u00AD")>=0) {
         var c = cm.getCursor();
         cm.setValue(cm.getValue().replace(/\u00AD/g,''));
