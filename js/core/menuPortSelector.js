@@ -76,7 +76,8 @@
           html = '<ul class="port-list">';
           for (var i in items) {
             var port = items[i];
-            $.each(port.split(","), function(index, value) {
+            $.each(port.split(";"), function(index, value) {
+            				value = value.trim()
 				          html += '<li class="port-list__item">'+
                       '<a title="'+ port +'" class="button button--icon button--wide" data-port="'+ (index === 0 ? value : 'TCP/IP: ' + value) + '">'+
                         '<i class="icon-usb lrg button__icon"></i>'+
